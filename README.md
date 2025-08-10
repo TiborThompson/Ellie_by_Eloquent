@@ -33,6 +33,8 @@ Ellie is an AI-powered chatbot from Eloquent AI. It's designed to provide intell
 
 ## Getting Started
 
+**Compatibility:** This project has been tested and confirmed to work on macOS Sequoia 15.3.1 and Linux Ubuntu 22.04.5.
+
 ### Prerequisites
 
 -   Python 3.10+
