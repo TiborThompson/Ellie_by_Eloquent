@@ -1,0 +1,66 @@
+# --- General ---
+.DS_Store
+*.swp
+*.swo
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.env
+.venv
+env/
+venv/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- Node.js / Frontend ---
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.tmp/
+frontend/.vite/
+*.tsbuildinfo
+.npm/
+
+# --- IDEs ---
+.vscode/
+.idea/
+
+# --- Testing & Coverage ---
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# --- Databases ---
+*.sqlite3
+*.db
+
+# --- Logs ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Local Secrets (Never commit!) ---
+.env.local
+.env.*.local
+!/.env.example
+
+# --- Project Specific ---
+/data/
+Z.txt
+SOP.txt 

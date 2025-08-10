@@ -1,0 +1,12 @@
+# --- Node.js ---
+node_modules/
+.npm/
+dist/
+.vite/
+.env.local
+.env.*.local
+
+# --- IDEs / OS ---
+.vscode/
+.idea/
+.DS_Store 
