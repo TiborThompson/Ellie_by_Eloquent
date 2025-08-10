@@ -11,12 +11,58 @@ command -v python3 >/dev/null 2>&1 || { echo >&2 "Python 3 is not installed. Ple
 echo "Python 3 found"
 command -v node >/dev/null 2>&1 || { echo >&2 "Node.js is not installed. Please install it to continue."; exit 1; }
 echo "Node.js found"
-command -v docker >/dev/null 2>&1 || { echo >&2 "Docker is not installed. Please install it to continue."; exit 1; }
-if ! sg docker -c "docker info" > /dev/null 2>&1; then
-    echo >&2 "Docker is not running. Please start Docker Desktop to continue."
-    exit 1
+
+# --- Docker Check & Auto-Installation ---
+# Check if Docker is installed
+if ! command -v docker &>/dev/null; then
+    echo "Docker is not found on your system."
+    read -p "Would you like to attempt to install it automatically? (y/n) " -n 1 -r
+    echo # Move to a new line
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "Attempting to install Docker and the Compose plugin..."
+        # Check for sudo privileges
+        if ! command -v sudo &>/dev/null; then
+            echo >&2 "Error: 'sudo' command not found. Please install Docker manually and re-run this script."
+            exit 1
+        fi
+        # Install Docker, the compose plugin, and add user to the docker group
+        sudo apt-get update && sudo apt-get install -y docker.io docker-compose-plugin
+        sudo usermod -aG docker $USER
+        echo "Docker installed successfully."
+        echo "IMPORTANT: For permissions to apply, you may need to log out and log back in, or reboot."
+        echo "The script will attempt to continue using the 'sg' command for now."
+    else
+        echo "User declined automatic installation."
+        echo "Please install Docker and the Docker Compose plugin manually, then re-run this script."
+        echo "On Debian/Ubuntu systems, you can typically do this with:"
+        echo "  sudo apt-get update"
+        echo "  sudo apt-get install -y docker.io docker-compose-plugin"
+        echo "  sudo usermod -aG docker \$USER"
+        echo "After installation, please log out and log back in before running this script again."
+        exit 1
+    fi
 fi
-echo "Docker found and running"
+echo "Docker command found."
+
+# --- Docker Daemon Check ---
+# Check if the Docker daemon is running and accessible
+if ! sg docker -c "docker info" &>/dev/null; then
+    echo "Docker is installed, but the daemon is not running or accessible."
+    echo "Attempting to start the Docker service..."
+    if command -v systemctl &>/dev/null; then
+        sudo systemctl start docker
+    fi
+
+    # Perform a final check
+    if ! sg docker -c "docker info" &>/dev/null; then
+      echo >&2 "Error: Could not connect to the Docker daemon."
+      echo >&2 "Please ensure Docker is running and that your user is in the 'docker' group."
+      echo >&2 "You may need to log out and log back in for group changes to take effect."
+      echo >&2 "You can try starting it manually with: sudo systemctl start docker"
+      exit 1
+    fi
+fi
+echo "Docker is installed and running."
 
 
 # --- Environment Setup ---
