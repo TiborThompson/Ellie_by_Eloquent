@@ -37,103 +37,87 @@ Ellie is an AI-powered chatbot from Eloquent AI. It's designed to provide intell
 
 -   Python 3.10+
 -   Node.js 18+
--   An active virtual environment (`python3 -m venv venv`)
+-   Docker and Docker Compose
 
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/your-username/eloquent-ai.git
-cd eloquent-ai
-```
-
-### 2. Setup Environment Variables
-
-Create a `.env` file in the project root by copying the example:
+### 1. Clone the Repo
 
 ```bash
-cp .env.example .env
+git clone https://github.com/TiborThompson/Ellie_by_Eloquent.git
+cd Ellie_by_Eloquent
 ```
 
-Now, open the `.env` file and add your API keys:
+### 2. First-Time Setup
 
-```dotenv
-# Get from Google AI Studio or Google Cloud
-GEMINI_API_KEY="your-google-gemini-api-key"
-
-# Get from your Pinecone account
-PINECONE_API_KEY="your-pinecone-api-key"
-
-# Optional: You can customize the Pinecone index details
-PINECONE_INDEX="fintech-faq"
-
-# Secret key for JWT authentication (change this to a random string)
-JWT_SECRET_KEY="a-very-secret-key-that-you-should-change"
-```
-
-### 3. Install Dependencies
-
-The `start.sh` script can handle this, but you can also install them manually.
-
-**Backend (Python):**
+For the initial setup, run the `setup.sh` script. This will check for prerequisites, help you create your `.env` file, and install all the necessary Python and Node.js dependencies.
 
 ```bash
-# Activate your virtual environment first
-source venv/bin/activate
-
-pip install -r backend/requirements.txt
+./setup.sh
 ```
+This script will guide you through creating your `.env` file and will pause to let you add your API keys.
 
-**Frontend (Node.js):**
+### 3. Running the Application
 
-```bash
-cd frontend
-npm install
-cd ..
-```
-
-### 4. Run the Application
-
-The easiest way to start the whole application is with the `start.sh` script. It handles:
--   Activating the virtual environment.
--   Loading environment variables from `.env`.
--   Checking if Pinecone needs to be seeded with data (and loads it if needed).
--   Starting both the backend and frontend servers.
+Once the initial setup is complete, you can start the entire application using Docker Compose with the `start.sh` script.
 
 ```bash
 ./start.sh
 ```
 
--   **Backend** will be running at `http://localhost:8000`
--   **Frontend** will be running at `http://localhost:5173`
+-   The **Backend** will be available at `http://localhost:8000`
+-   The **Frontend** will be available at `http://localhost:5173`
 
 Open `http://localhost:5173` in your browser to start chatting.
+
+### 4. Stopping the Application
+
+To stop all running Docker containers, use the `stop.sh` script.
+
+```bash
+./stop.sh
+```
+
+### 5. Running Tests
+
+A comprehensive test suite is included, which runs backend unit tests and end-to-end API tests against the live application. Make sure the application is running (`./start.sh`) before you run the tests.
+
+```bash
+./test.sh
+```
 
 ---
 
 ## Project Structure
 
 ```
-eloquent-ai/
+Ellie_by_Eloquent/
+├── .dockerignore
+├── .env.example
 ├── .gitignore
 ├── backend/
 │   ├── app/
-│   │   ├── api/          # FastAPI routers (chat, auth, sessions)
-│   │   ├── core/         # Core logic (auth, chatbot, database, settings)
-│   │   ├── models/       # SQLAlchemy ORM models
-│   │   ├── services/     # Business logic (user, session services)
-│   │   └── main.py       # FastAPI app entry point
-│   ├── scripts/        # Utility scripts (data loading)
+│   │   ├── api/
+│   │   ├── core/
+│   │   ├── models/
+│   │   ├── services/
+│   │   └── main.py
+│   ├── tests/
 │   └── requirements.txt
 ├── data/
-│   └── fintech_faq.json  # Knowledge base for the RAG system
+│   └── fintech_faq.json
 ├── frontend/
+│   ├── public/
 │   ├── src/
-│   │   ├── components/   # React components (Sidebar, AuthModal)
-│   │   └── App.tsx       # Main application component
+│   │   ├── components/
+│   │   └── App.tsx
+│   ├── Dockerfile
 │   └── package.json
+├── Deployment.md
 ├── README.md
-├── Deployment.md       # AWS Deployment Strategy
-└── start.sh            # Main startup script
+├── docker-compose.yml
+├── setup.sh
+├── start.sh
+├── stop.sh
+└── test.sh
 ```
 
 ## AWS Deployment Strategy
