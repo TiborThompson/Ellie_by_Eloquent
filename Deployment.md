@@ -15,11 +15,11 @@ CI/CD: A simple CI/CD pipeline could be set up with AWS CodePipeline and CodeBui
 The Workflow:
 
 With this setup, the deployment process could be fully automated. We can imagine: 
-A developer pushes new code to the main branch.
--> This automatically triggers CodePipeline.
--> CodeBuild then builds a new Docker image from the code and pushes it to the Amazon ECR repository.
--> CodePipeline tells Fargate to deploy the new image, updating the running application with zero downtime.
+A developer pushes new code to the main branch
+-> This automatically triggers CodePipeline
+-> CodeBuild then builds a new Docker image from the code and pushes it to the Amazon ECR repository
+-> CodePipeline tells Fargate to deploy the new image, updating the running application with zero downtime
 
 Simplified, Fargate handles the actual scaling, an ALB handles requests, RDS handles data, and CodeBuild+CodePipeline handles deployment from development state to production. 
 
-This approach would result in a scalable and secure app without unnecessary complexity. 
+This approach would result in a scalable and secure app without unnecessary complexity and management overhead. 
