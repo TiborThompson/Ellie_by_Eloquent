@@ -1,6 +1,6 @@
 PROPOSED AWS DEPLOYMENT STRATEGY
 
-This document outlines a potential strategy for deploying the app on AWS. It's a straightforward approach that I believe is a good fit because it's production-ready, secure, and easy for a small team to manage.
+This document outlines a potential strategy for deploying the app on AWS. It's a straightforward approach that if executed well would be production-ready, secure, and simple for a small team to manage. 
 
 Core Components:
 
