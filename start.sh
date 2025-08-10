@@ -9,15 +9,15 @@ set -a
 set +a
 
 # Stop any running containers first
-if [ "$(docker-compose ps -q)" ]; then
+if [ "$(sg docker -c 'docker compose ps -q')" ]; then
     echo "--- Stopping existing containers ---"
-    docker-compose down
+    sg docker -c 'docker compose down'
 fi
 
 # Build and start services in the background
 echo "--- Building and starting Docker containers ---"
-docker-compose up --build -d
+sg docker -c 'docker compose up --build -d'
 
 # tail the logs
 echo "--- Attaching to logs (press Ctrl+C to detach) ---"
-docker-compose logs -f 
+sg docker -c 'docker compose logs -f' 

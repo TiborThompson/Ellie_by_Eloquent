@@ -12,7 +12,7 @@ echo "Python 3 found"
 command -v node >/dev/null 2>&1 || { echo >&2 "Node.js is not installed. Please install it to continue."; exit 1; }
 echo "Node.js found"
 command -v docker >/dev/null 2>&1 || { echo >&2 "Docker is not installed. Please install it to continue."; exit 1; }
-if ! docker info > /dev/null 2>&1; then
+if ! sg docker -c "docker info" > /dev/null 2>&1; then
     echo >&2 "Docker is not running. Please start Docker Desktop to continue."
     exit 1
 fi
@@ -44,7 +44,7 @@ fi
 
 source venv/bin/activate
 echo "Installing Python packages from backend/requirements.txt..."
-pip install -r backend/requirements.txt
+pip install --timeout=3600 -r backend/requirements.txt
 echo "Backend dependencies installed."
 deactivate
 
